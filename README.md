@@ -44,6 +44,7 @@ Monitorización del Proceso
 <img width="886" height="353" alt="image" src="https://github.com/user-attachments/assets/4b443c7e-ff0d-4303-9efc-a8d94306bb2e" />
 <img width="886" height="231" alt="image" src="https://github.com/user-attachments/assets/1ab67014-5111-48e0-8971-c743d80fddd3" />
 
+
 3-  Creación del proyecto en IntelliJ, estructuración de carpetas, y creación de archivos POJO con sus atributos (18/10/2025)
 
 <img width="1455" height="598" alt="image" src="https://github.com/user-attachments/assets/7a423dbb-bba5-4342-a46a-1af0487d9f89" />
