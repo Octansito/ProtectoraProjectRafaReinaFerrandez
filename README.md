@@ -51,4 +51,5 @@ Monitorización del Proceso
 
 <img width="1891" height="990" alt="image" src="https://github.com/user-attachments/assets/4f53a62c-5cc7-40c7-9a8c-6774dca7b878" />
 
-
+4- Introducción clase VoluntarioGrupo representa la tabla intermedia voluntario_grupo que resuelve la relación N:M entre las entidades Voluntario y Grupo.
+En JDBC se define como un modelo simple (POJO) con dos atributos (dniVoluntario e idGrupo)
