@@ -52,4 +52,6 @@ Monitorización del Proceso
 <img width="1891" height="990" alt="image" src="https://github.com/user-attachments/assets/4f53a62c-5cc7-40c7-9a8c-6774dca7b878" />
 
 4- Introducción clase VoluntarioGrupo representa la tabla intermedia voluntario_grupo que resuelve la relación N:M entre las entidades Voluntario y Grupo.
-En JDBC se define como un modelo simple (POJO) con dos atributos (dniVoluntario e idGrupo)
+En JDBC se define como un modelo simple (POJO) con dos atributos (dniVoluntario e idGrupo).
+Se creo la conexión DBConnection que extraía los valores del config.properties para establecer una única conexión para todo el programa mediante un Singleton y se le incorporó un método close () para cerrar la conexión.
+
