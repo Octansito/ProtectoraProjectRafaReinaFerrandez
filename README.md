@@ -57,7 +57,8 @@ Se creo la conexión DBConnection que extraía los valores del config.properties
 
 5- Debido a un error al tratar de testear la conexión, pude ver que era por falta de una Libería no instalada de Maven (23/10/2025)
 
-<img width="1770" height="472" alt="image" src="https://github.com/user-attachments/assets/2a5af019-fa1e-4a14-b9c4-2e36c23f25fb" />
+<img width="1261" height="329" alt="image" src="https://github.com/user-attachments/assets/9f3afb7c-e9ab-4a3c-b6fb-80f5602f290f" />
+
 
 <img width="1601" height="810" alt="image" src="https://github.com/user-attachments/assets/432ca99d-8e59-443f-83c5-f507faa69a75" />
 
