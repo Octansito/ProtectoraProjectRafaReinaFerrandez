@@ -24,7 +24,7 @@ public class DBConnectionProtectora {
                     Properties props=new Properties();
 
                     //Lectura del fichero config.properties para obtener los valores del fichero
-                    try(FileInputStream file=new FileInputStream("config.properties")) {
+                    try(FileInputStream file=new FileInputStream("src/config.properties")) {
                         props.load(file);
 
                     }
@@ -43,6 +43,7 @@ public class DBConnectionProtectora {
                 System.err.println("Error al leer el fichero config.properties "+e.getMessage() );
             } catch (SQLException e) {
                 System.err.println("Error al conectar con la base de datos. Revisa la URL "+e.getMessage());
+                e.printStackTrace(); // ← verás la clase y la línea (DriverManager.getConnection)
             }
         }
         return connection;
