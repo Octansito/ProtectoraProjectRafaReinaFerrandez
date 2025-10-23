@@ -55,3 +55,10 @@ Monitorización del Proceso
 En JDBC se define como un modelo simple (POJO) con dos atributos (dniVoluntario e idGrupo).
 Se creo la conexión DBConnection que extraía los valores del config.properties para establecer una única conexión para todo el programa mediante un Singleton y se le incorporó un método close () para cerrar la conexión.
 
+5- Debido a un error al tratar de testear la conexión, pude ver que era por falta de una Libería no instalada de Maven (23/10/2025)
+
+<img width="1770" height="472" alt="image" src="https://github.com/user-attachments/assets/2a5af019-fa1e-4a14-b9c4-2e36c23f25fb" />
+
+<img width="1601" height="810" alt="image" src="https://github.com/user-attachments/assets/432ca99d-8e59-443f-83c5-f507faa69a75" />
+
+
