@@ -47,11 +47,31 @@ Monitorización del Proceso
 
 3-  Creación del proyecto en IntelliJ, estructuración de carpetas, y creación de archivos POJO con sus atributos (18/10/2025)
 
-<img width="1455" height="598" alt="image" src="https://github.com/user-attachments/assets/7a423dbb-bba5-4342-a46a-1af0487d9f89" />
+<img width="1065" height="262" alt="image" src="https://github.com/user-attachments/assets/f66db552-2777-4290-bac3-4279f62d0ba1" />
+
 
 <img width="1891" height="990" alt="image" src="https://github.com/user-attachments/assets/4f53a62c-5cc7-40c7-9a8c-6774dca7b878" />
 
 4- Introducción clase VoluntarioGrupo representa la tabla intermedia voluntario_grupo que resuelve la relación N:M entre las entidades Voluntario y Grupo.
 En JDBC se define como un modelo simple (POJO) con dos atributos (dniVoluntario e idGrupo).
 Se creo la conexión DBConnection que extraía los valores del config.properties para establecer una única conexión para todo el programa mediante un Singleton y se le incorporó un método close () para cerrar la conexión.
+
+5- Debido a un error al tratar de testear la conexión, pude ver que era por falta de una Libería no instalada de Maven. Además, se creó un compartimento Docker para alojar la base de datos y se estableció conexión con ella (23/10/2025)
+
+<img width="1261" height="329" alt="image" src="https://github.com/user-attachments/assets/9f3afb7c-e9ab-4a3c-b6fb-80f5602f290f" />
+
+<img width="1601" height="810" alt="image" src="https://github.com/user-attachments/assets/432ca99d-8e59-443f-83c5-f507faa69a75" />
+
+  - Creación del docker
+    <img width="1481" height="760" alt="image" src="https://github.com/user-attachments/assets/96036357-b296-4d1b-8d6f-7acfd2b66ffb" />
+  - Prueba de conexión
+    <img width="1314" height="788" alt="image" src="https://github.com/user-attachments/assets/8d3ccbdb-1863-48c7-b045-27d5dd8487dd" />
+
+    <img width="1839" height="552" alt="image" src="https://github.com/user-attachments/assets/add76c4a-46be-445a-ad6f-0876f598cb55" />
+  
+Por otro lado, se procedió con la creación de la clase ProtectoraLoginHandleDB en la que se creo al completo el menú CRUD.
+
+<img width="1105" height="840" alt="image" src="https://github.com/user-attachments/assets/4b969072-a48a-42af-960b-8cba12038c96" />
+
+<img width="642" height="308" alt="image" src="https://github.com/user-attachments/assets/155bc017-27b7-45f1-a76e-3740dcad2352" />
 
