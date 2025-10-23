@@ -69,5 +69,9 @@ Se creo la conexión DBConnection que extraía los valores del config.properties
 
     <img width="1839" height="552" alt="image" src="https://github.com/user-attachments/assets/add76c4a-46be-445a-ad6f-0876f598cb55" />
   
+Por otro lado, se procedió con la creación de la clase ProtectoraLoginHandleDB en la que se creo al completo el menú CRUD.
 
+<img width="1105" height="840" alt="image" src="https://github.com/user-attachments/assets/4b969072-a48a-42af-960b-8cba12038c96" />
+
+<img width="642" height="308" alt="image" src="https://github.com/user-attachments/assets/155bc017-27b7-45f1-a76e-3740dcad2352" />
 
