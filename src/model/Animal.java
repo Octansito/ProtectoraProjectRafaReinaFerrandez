@@ -17,13 +17,13 @@ public class Animal {
     //Constructores
     public Animal() {}
 
-    public Animal(LocalDate fechaIngreso, String estado, String tipo, String nombreAnimal, int idAnimal, int edad) {
-        this.fechaIngreso = fechaIngreso;
-        this.estado = estado;
-        this.tipo = tipo;
-        this.nombreAnimal = nombreAnimal;
+    public Animal(int idAnimal, String nombreAnimal,String tipo, int edad, String estado, LocalDate fechaIngreso) {
         this.idAnimal = idAnimal;
+        this.nombreAnimal = nombreAnimal;
+        this.tipo = tipo;
         this.edad = edad;
+        this.estado = estado;
+        this.fechaIngreso = fechaIngreso;
     }
 
     //Getters y Setters

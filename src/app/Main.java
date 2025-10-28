@@ -1,24 +1,37 @@
 package app;
+import model.Animal;
+import mysql.ProtectoraLoginHandleDB;
 import util.DBConnectionProtectora;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Connection con = null;
-        try {
-            con = DBConnectionProtectora.getConnection();   // intenta abrir
-            if (con != null && !con.isClosed()) {
-                System.out.println("Conexión OK");
-            } else {
-                System.err.println("Conexión NO establecida.");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQLException: " + e.getMessage());
-            System.err.println("SQLState: " + e.getSQLState());
-            System.err.println("VendorError: " + e.getErrorCode());
-        } finally {
-            DBConnectionProtectora.close();                  // cierra la única conexión del singleton
+
+        ProtectoraLoginHandleDB protectoraH=new ProtectoraLoginHandleDB();
+        Animal animal=new Animal();
+
+        List<Animal> listaAnimal=new ArrayList<>();
+        listaAnimal.add(new Animal(1,"Elena","Perro", 20, "En refugio", LocalDate.of(2025, 10, 28)));
+        listaAnimal.add(new Animal(1,"Puskas","Gato", 6, "Adoptado", LocalDate.of(2024, 6, 11)));
+        listaAnimal.add(new Animal(1,"Elena","Perro", 20, "En refugio", LocalDate.of(2023, 11, 16)));
+        listaAnimal.add(new Animal(1,"Elena","Perro", 20, "Adoptado", LocalDate.of(2021, 4, 5)));
+
+
+        for(Animal pets: listaAnimal){
+            protectoraH.insertAnimal(animal);
+            System.out.println("Animal introducido en la protectora");
         }
+
+        protectoraH.deleteAnimal(listaAnimal.get(2));
+        //protectoraH.updateAnimal(animal.getIdAnimal(1),animal.getNombreAnimal("Elena"), "Perro", 20, "Adoptado", LocalDate.of(2025,10,28)));
+
+
+
+
     }
 }
