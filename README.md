@@ -71,7 +71,14 @@ Se creo la conexión DBConnection que extraía los valores del config.properties
   
 Por otro lado, se procedió con la creación de la clase ProtectoraLoginHandleDB en la que se creo al completo el menú CRUD.
 
+
 <img width="1105" height="840" alt="image" src="https://github.com/user-attachments/assets/4b969072-a48a-42af-960b-8cba12038c96" />
 
 <img width="642" height="308" alt="image" src="https://github.com/user-attachments/assets/155bc017-27b7-45f1-a76e-3740dcad2352" />
+
+Opté por emplear el "PreparedStatement" ya que es una versión mejorada del "Statement" el cual permite parametrizar las sentencias SQL con el uso de "?" evitando, de tal forma, errores, facilitando la reutilización de la sentencia y protegiendo contra inyecciones SQL.
+
+6- Introducción del rollback, modificación de base de datos y introducción del autocommit (28/10/2025). Ej:
+
+<img width="1020" height="874" alt="image" src="https://github.com/user-attachments/assets/2ace311f-8be8-485b-806d-73559f9131cd" />
 
