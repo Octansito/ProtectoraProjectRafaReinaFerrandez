@@ -48,12 +48,10 @@ public class ProtectoraLoginHandleDB {
             }
         }
 
-
-
     }
 
     public void updateAnimal (Animal animal){
-        String updateAnimal="UPDATE animal SET nombre=?, tipo=?, edad=?, estado=?, fecha_ingreso=?";
+        String updateAnimal="UPDATE animal SET nombre=?, tipo=?, edad=?, estado=?, fecha_ingreso=? WHERE id_animal=? ";
         try(PreparedStatement ps=connection.prepareStatement(updateAnimal)) {
             connection.setAutoCommit(false);
 
@@ -62,6 +60,7 @@ public class ProtectoraLoginHandleDB {
             ps.setInt(3, animal.getEdad());
             ps.setString(4, animal.getEstado());
             ps.setTimestamp(5, Timestamp.valueOf(animal.getFechaIngreso().atStartOfDay()));
+            ps.setInt(6, animal.getIdAnimal());
             ps.executeUpdate();
 
         } catch (SQLException e) {
