@@ -49,7 +49,9 @@ public class DBConnectionProtectora {
         return connection;
     }
 
-    //Método para cerrar la conexión
+
+    //Forma de cerrar la conexión
+
     public static void close(){
         if(connection!=null){
             try{
