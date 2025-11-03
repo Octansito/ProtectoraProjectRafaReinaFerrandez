@@ -90,8 +90,24 @@ Se creó, por otro lado, la clase AdopcionDTO que me permitiría devolver una li
 <img width="1366" height="521" alt="image" src="https://github.com/user-attachments/assets/304bf845-010d-4168-9c8d-c37f7fff892b" />
 
 
-8- Pruebas realizadas (03/11/2025)
+8- Modificación método update y cambio del método getTotalByEstado por getEdadMediaAdopcion, comentarios en código y Pruebas realizadas (03/11/2025)
 
   a. Inserts:
   <img width="1433" height="341" alt="image" src="https://github.com/user-attachments/assets/26a4bb27-a5a1-4f2e-ad3b-8ba6e5022ecb" />
+
+  <img width="1765" height="431" alt="image" src="https://github.com/user-  attachments/assets/1c2f3ed7-610b-4dd5-8f22-c3dd82f9f645" />
+  
+  <img width="1186" height="314" alt="image" src="https://github.com/user-attachments/assets/51c37f7a-6ae3-4710-a400-4fe1362c7612" />
+
+  b. Delete:
+  <img width="1649" height="942" alt="image" src="https://github.com/user-attachments/assets/8344c872-ef02-47bc-93de-8fe6c6b8dcec" />
+
+  <img width="1051" height="289" alt="image" src="https://github.com/user-attachments/assets/75ac362c-b27a-4d84-9f7a-fd32a674bd6f" />
+
+  c. Updates:
+<img width="1872" height="694" alt="image" src="https://github.com/user-attachments/assets/78d9ef3f-3f71-483d-be60-86446696325f" />
+
+<img width="1049" height="285" alt="image" src="https://github.com/user-attachments/assets/50dedd58-7c81-4c26-871c-44fa16b37d23" />
+
+  d. 
 
