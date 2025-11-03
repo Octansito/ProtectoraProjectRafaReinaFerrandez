@@ -78,7 +78,20 @@ Por otro lado, se procedió con la creación de la clase ProtectoraLoginHandleDB
 
 Opté por emplear el "PreparedStatement" ya que es una versión mejorada del "Statement" el cual permite parametrizar las sentencias SQL con el uso de "?" evitando, de tal forma, errores, facilitando la reutilización de la sentencia y protegiendo contra inyecciones SQL.
 
-6- Introducción del rollback, modificación de base de datos y introducción del autocommit (28/10/2025). Ej:
+6- Introducción del rollback, modificación de base de datos y introducción del autocommit().
+<img width="981" height="514" alt="image" src="https://github.com/user-attachments/assets/0464f5ea-d7cc-471d-9395-23c198262b6c" />
 
-<img width="1020" height="874" alt="image" src="https://github.com/user-attachments/assets/2ace311f-8be8-485b-806d-73559f9131cd" />
+7- Integración de los métodos getTotalByEstado y getAdopciónByTipo en el que se hace dos querys, la primera con COUNT y JOIN y la segunda con JOIN y ORDER BY (28/10/2025).
+
+<img width="1429" height="816" alt="image" src="https://github.com/user-attachments/assets/def60999-70bc-4ce8-81a2-c5101c10b966" />
+
+Se creó, por otro lado, la clase AdopcionDTO que me permitiría devolver una lista con parametros personalizados en el método getAdopcionesByTipo () de la clase ProtectoraLoginHandleDB.
+
+<img width="1366" height="521" alt="image" src="https://github.com/user-attachments/assets/304bf845-010d-4168-9c8d-c37f7fff892b" />
+
+
+8- Pruebas realizadas (03/11/2025)
+
+  a. Inserts:
+  <img width="1433" height="341" alt="image" src="https://github.com/user-attachments/assets/26a4bb27-a5a1-4f2e-ad3b-8ba6e5022ecb" />
 
