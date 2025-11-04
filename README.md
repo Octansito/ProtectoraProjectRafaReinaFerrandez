@@ -104,10 +104,28 @@ Se creó, por otro lado, la clase AdopcionDTO que me permitiría devolver una li
 
   <img width="1051" height="289" alt="image" src="https://github.com/user-attachments/assets/75ac362c-b27a-4d84-9f7a-fd32a674bd6f" />
 
-  c. Updates:
+  c. Updates (Elena pasa de ser "En refugio" --> "Adoptado"):
 <img width="1872" height="694" alt="image" src="https://github.com/user-attachments/assets/78d9ef3f-3f71-483d-be60-86446696325f" />
 
 <img width="1049" height="285" alt="image" src="https://github.com/user-attachments/assets/50dedd58-7c81-4c26-871c-44fa16b37d23" />
 
-  d. 
+  d. Creación de la clase MediaEdadDTO, modificación del método getEdadMediaAdopción y pruebas (04/11/2025)
+      -->Clase MediaEdadDTO
+      <img width="1289" height="415" alt="image" src="https://github.com/user-attachments/assets/11b6cafe-4225-4a65-b285-73e9bd9a78ff" />
+      --> Modificación método getEdadMediaAdopcion
+      <img width="1044" height="380" alt="image" src="https://github.com/user-attachments/assets/ee58bae9-9407-4f9a-9210-71fe52becdbf" />
+      -->Pruebas
+      <img width="1624" height="638" alt="image" src="https://github.com/user-attachments/assets/ced0bd56-b327-45de-a6c2-1b98c9c00c69" />
+      <img width="945" height="446" alt="image" src="https://github.com/user-attachments/assets/fc8191f2-bbaf-4c95-b707-aa68b0eb694d" />
+e. Pruebas del método getAdopcionesByTipo (04/11/2025)
+    -->"Gato"
+    <img width="1403" height="675" alt="image" src="https://github.com/user-attachments/assets/ad360ae2-4fa2-45f4-9e8a-2d445cc1fca1" />
+
+  <img width="1234" height="385" alt="image" src="https://github.com/user-attachments/assets/d87715ea-6a42-4758-9ce4-a6f7c0506135" />
+
+  -->"Perro"
+  <img width="1756" height="719" alt="image" src="https://github.com/user-attachments/assets/eb20fe8b-5cb1-46e8-b39d-c573fc91c050" />
+
+<img width="1359" height="464" alt="image" src="https://github.com/user-attachments/assets/ced0b517-5b3d-41b3-a0eb-2869ec8f8b92" />
+
 
