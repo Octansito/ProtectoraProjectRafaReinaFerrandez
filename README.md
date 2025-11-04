@@ -128,4 +128,118 @@ e. Pruebas del método getAdopcionesByTipo (04/11/2025)
 
 <img width="1359" height="464" alt="image" src="https://github.com/user-attachments/assets/ced0b517-5b3d-41b3-a0eb-2869ec8f8b92" />
 
+9- Exportación de la base de datos (04/11/2025)
+<img width="1250" height="1029" alt="image" src="https://github.com/user-attachments/assets/8b32136d-3ca7-41af-bd46-7e0bda160367" />
 
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema protectora
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema protectora
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `protectora` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `protectora` ;
+
+-- -----------------------------------------------------
+-- Table `protectora`.`animal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `protectora`.`animal` (
+  `id_animal` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NOT NULL,
+  `tipo` ENUM('Perro', 'Gato') NOT NULL,
+  `edad` INT NOT NULL,
+  `estado` ENUM('En refugio', 'Adoptado') NOT NULL DEFAULT 'En refugio',
+  `fecha_ingreso` DATE NOT NULL,
+  PRIMARY KEY (`id_animal`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 5
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `protectora`.`adopcion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `protectora`.`adopcion` (
+  `id_adopcion` INT NOT NULL AUTO_INCREMENT,
+  `id_animal` INT NOT NULL,
+  `nombre_adoptante` VARCHAR(60) NOT NULL,
+  `telefono` VARCHAR(15) NOT NULL,
+  `fecha_adopcion` DATE NOT NULL,
+  `direccion` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`id_adopcion`),
+  INDEX `id_animal` (`id_animal` ASC) VISIBLE,
+  CONSTRAINT `adopcion_ibfk_1`
+    FOREIGN KEY (`id_animal`)
+    REFERENCES `protectora`.`animal` (`id_animal`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 12
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `protectora`.`voluntario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `protectora`.`voluntario` (
+  `dni` CHAR(9) NOT NULL,
+  `nombre` VARCHAR(100) NOT NULL,
+  `telefono` VARCHAR(15) NOT NULL,
+  `rol` ENUM('Responsable', 'Voluntario') NOT NULL DEFAULT 'Voluntario',
+  `antiguedad` INT NOT NULL,
+  PRIMARY KEY (`dni`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `protectora`.`grupo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `protectora`.`grupo` (
+  `id_grupo` INT NOT NULL AUTO_INCREMENT,
+  `dia_semana` ENUM('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo') NOT NULL,
+  `turno` ENUM('Mañana', 'Tarde') NOT NULL,
+  `responsable` CHAR(9) NULL DEFAULT NULL,
+  PRIMARY KEY (`id_grupo`),
+  INDEX `responsable` (`responsable` ASC) VISIBLE,
+  CONSTRAINT `grupo_ibfk_1`
+    FOREIGN KEY (`responsable`)
+    REFERENCES `protectora`.`voluntario` (`dni`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `protectora`.`voluntario_grupo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `protectora`.`voluntario_grupo` (
+  `dni_voluntario` CHAR(9) NOT NULL,
+  `id_grupo` INT NOT NULL,
+  PRIMARY KEY (`dni_voluntario`, `id_grupo`),
+  INDEX `id_grupo` (`id_grupo` ASC) VISIBLE,
+  CONSTRAINT `voluntario_grupo_ibfk_1`
+    FOREIGN KEY (`dni_voluntario`)
+    REFERENCES `protectora`.`voluntario` (`dni`),
+  CONSTRAINT `voluntario_grupo_ibfk_2`
+    FOREIGN KEY (`id_grupo`)
+    REFERENCES `protectora`.`grupo` (`id_grupo`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
