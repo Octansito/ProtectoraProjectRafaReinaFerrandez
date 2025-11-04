@@ -1,12 +1,15 @@
 package mysql;
 
 import dto.AdopcionDTO;
+import dto.MediaEdadDTO;
 import model.Animal;
 import util.DBConnectionProtectora;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class ProtectoraLoginHandleDB {
     final static Connection connection= DBConnectionProtectora.getConnection();
@@ -117,26 +120,27 @@ public class ProtectoraLoginHandleDB {
     }
 
     /**
-     * Consulta para contar cuál es la media de edad de los animales adoptados
+     * Consulta que devuelve la media de edad de los tipos de animales adoptados
 
      * @return devuelve el número de filas asociadasa a animales con ese parámetro
      */
-    public double getEdadMediaAdopcion(){
+    public List<MediaEdadDTO> getEdadMediaAdopcion(){
+        List<MediaEdadDTO> resultado= new ArrayList<>();
         String totalQuery="SELECT an.tipo, AVG(an.edad) AS media_edad FROM adopcion ad JOIN animal an ON an.id_animal = ad.id_animal GROUP BY an.tipo ORDER BY media_edad DESC";
         try (PreparedStatement ps= connection.prepareStatement(totalQuery)){
             ResultSet rs=ps.executeQuery();
-            while (rs.next()){
-                return rs.getInt("media_edad");
+            while(rs.next()){
+                resultado.add(new MediaEdadDTO(rs.getString(1), rs.getDouble(2)));
             }
         } catch (SQLException e) {
             System.err.println("No se ha podido obtener la media de edad por tipo de animal");
             e.printStackTrace();
         }
-        return 0;
+        return resultado;
     }
 
     /**
-     * Consulta todas las adopciones cuyo animal tiene ese tipo
+     * Consulta todas las adopciones por tipo de animal
      * @param tipo del animal "Perro" o "Gato"
      * @return devuelve una lista con por cada adopción: el id, el nombre del animal, tipo, nombre del adoptante y fecha de adopción
      */
@@ -149,6 +153,7 @@ public class ProtectoraLoginHandleDB {
             ResultSet rs= ps.executeQuery();
             while(rs.next()){
                 listaAdopciones.add(new AdopcionDTO(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4), rs.getTimestamp(5).toLocalDateTime().toLocalDate()));
+
             }
 
         } catch (SQLException e) {

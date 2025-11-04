@@ -1,4 +1,6 @@
 package app;
+import dto.AdopcionDTO;
+import dto.MediaEdadDTO;
 import model.Animal;
 import mysql.ProtectoraLoginHandleDB;
 import util.DBConnectionProtectora;
@@ -38,7 +40,13 @@ public class Main {
 //        System.out.println("El estado del animal ha sido actualizado: "+animal2.getIdAnimal()+" "+animal2.getNombreAnimal()+" "+animal2.getEstado());
 
             //Edad media de los animales adoptados
-           System.out.println(protectoraH.getEdadMediaAdopcion());
+           //System.out.println(protectoraH.getEdadMediaAdopcion());
+
+            //Información del animal adoptado según su tipo getAdopcionesByTipo
+        //System.out.println(protectoraH.getAdopcionesByTipo("Perro"));
+        for(AdopcionDTO adopcion: protectoraH.getAdopcionesByTipo("Gato")){
+            System.out.println(adopcion);
+        }
 
 
 
