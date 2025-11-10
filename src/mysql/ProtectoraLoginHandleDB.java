@@ -62,14 +62,16 @@ public class ProtectoraLoginHandleDB {
      * Actualiza el estado de un animal según la id de dicho animal
      * @param animal
      */
-    public void updateAnimalEstado (Animal animal){
-        String updateAnimal="UPDATE animal SET estado = ? WHERE id_animal = ?";
+    public void updateAnimalDatos (Animal animal){
+        String updateAnimal="UPDATE animal SET edad=?, estado = ? WHERE id_animal = ?";
         try(PreparedStatement ps=connection.prepareStatement(updateAnimal)) {
             connection.setAutoCommit(false);
-            ps.setString(1, animal.getEstado());
-            ps.setInt(2, animal.getIdAnimal());
+            ps.setInt(1, animal.getEdad());
+            ps.setString(2, animal.getEstado());
+            ps.setInt(3, animal.getIdAnimal());
             ps.executeUpdate();
             connection.commit();
+
 
         } catch (SQLException e) {
             System.err.println("No se ha podido actualizar el animal");
