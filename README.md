@@ -247,8 +247,12 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
-10- Creación menú opciones Main y modificación del método update (10/11/2025):
+10- Creación menú opciones Main, modificación del método update y pruebas (10/11/2025):
  a. Parte del menú de opciones
  <img width="1860" height="1080" alt="image" src="https://github.com/user-attachments/assets/f8e3fb98-9fa7-4fd6-941c-9a0a8dc47b42" />
  b. Modificación método update
  <img width="1245" height="969" alt="image" src="https://github.com/user-attachments/assets/f4491bb4-9568-4114-840f-2a980738dbb9" />
+ c. Pruebas
+ <img width="655" height="694" alt="image" src="https://github.com/user-attachments/assets/9b4bfe7f-7160-4b9f-8e0b-906664098a7c" />
+ <img width="715" height="208" alt="image" src="https://github.com/user-attachments/assets/e99d7d22-fbd4-460b-a578-2bfb5d58056e" />
+
