@@ -43,15 +43,15 @@ import java.util.Scanner;
 
                             System.out.println("Identificador del animal");
                             int id=Integer.parseInt(sc.nextLine());
-                            System.out.print("Nombre del animal: ");
+                            System.out.println("Nombre del animal: ");
                             String nombre=sc.nextLine();
-                            System.out.print("Especie (Perro/Gato): ");
+                            System.out.println("Especie (Perro/Gato): ");
                             String tipo= sc.nextLine();
-                            System.out.print("Edad del animal: ");
+                            System.out.println("Edad del animal: ");
                             int edad = Integer.parseInt(sc.nextLine());
-                            System.out.print("Estado (En refugio / Adoptado)");
+                            System.out.println("Estado (En refugio / Adoptado)");
                             String estado= sc.nextLine();
-                            System.out.print("Fecha de ingreso: ");
+                            System.out.println("Fecha de ingreso (YYYY-MM-DD): ");
                             LocalDate fechaIngreso = LocalDate.parse(sc.nextLine());
 
 
