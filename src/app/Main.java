@@ -152,7 +152,7 @@ import java.util.Scanner;
 //        );
 
         //Insert
-        /*for(Animal pet: listaAnimal){
+        /* for(Animal pet: listaAnimal){
             protectoraH.insertAnimal(pet);
             System.out.println("Animal insertado: "+pet.getIdAnimal()+" "+pet.getNombreAnimal()+" "+pet.getEdad());
         }*/
