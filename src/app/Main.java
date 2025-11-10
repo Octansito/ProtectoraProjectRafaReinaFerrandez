@@ -26,6 +26,7 @@ import java.util.Scanner;
                     System.out.println("6- Consulta todas las adopciones por tipo de animal");
                     System.out.println("7- Salir");
 
+                    System.out.println("Introduce la opción:");
                     opcion = Integer.parseInt(sc.nextLine());
 
                     switch (opcion) {
