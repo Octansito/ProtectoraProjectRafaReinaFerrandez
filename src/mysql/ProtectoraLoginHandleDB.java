@@ -8,7 +8,7 @@ import util.DBConnectionProtectora;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Scanner;
 
 
 public class ProtectoraLoginHandleDB {
@@ -23,7 +23,9 @@ public class ProtectoraLoginHandleDB {
     public void insertAnimal(Animal animal) {
 
         String insertAnimal ="INSERT INTO animal (nombre, tipo, edad, estado, fecha_ingreso) VALUES (?,?,?,?,?)";
-        try(PreparedStatement ps=connection.prepareStatement(insertAnimal, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        String insertAdopcion="INSERT INTO adopcion(id_animal, nombre_adoptante, telefono, fecha_adopcion, direccion) VALUES (?,?,?,?,?)";
+        try(PreparedStatement ps=connection.prepareStatement(insertAnimal, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement psAdopcion=connection.prepareStatement(insertAdopcion)) {
             connection.setAutoCommit(false);
             ps.setString(1, animal.getNombreAnimal());
             ps.setString(2, animal.getTipo());
@@ -38,6 +40,30 @@ public class ProtectoraLoginHandleDB {
             if(rsAnimal.next()){
                 idAnimal=rsAnimal.getInt(1);
             }
+
+            // --- Si el animal está adoptado, registrar la adopción ---
+            if ("Adoptado".equalsIgnoreCase(animal.getEstado())) {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("\n--- Registrar adopción del animal " + animal.getNombreAnimal() + " ---");
+                System.out.print("Nombre del adoptante: ");
+                String nombreAdoptante = sc.nextLine();
+                System.out.print("Teléfono del adoptante: ");
+                String telefono = sc.nextLine();
+                System.out.print("Dirección del adoptante: ");
+                String direccion = sc.nextLine();
+
+                psAdopcion.setInt(1, idAnimal);
+                psAdopcion.setString(2, nombreAdoptante);
+                psAdopcion.setString(3, telefono);
+                psAdopcion.setTimestamp(4, Timestamp.valueOf(animal.getFechaIngreso().atStartOfDay()));
+                psAdopcion.setString(5, direccion);
+                psAdopcion.executeUpdate();
+
+                System.out.println("Animal y adopción registrados correctamente.");
+            } else {
+                System.out.println("Animal registrado correctamente en refugio.");
+            }
+
             connection.commit();
         } catch (SQLException e) {
             System.err.println("Error al insertar el animal en la base de datos");
@@ -59,19 +85,45 @@ public class ProtectoraLoginHandleDB {
     }
 
     /**
-     * Actualiza el estado de un animal según la id de dicho animal
+     * Actualiza el estado o la edad de un animal según la id de dicho animal
      * @param animal
      */
     public void updateAnimalDatos (Animal animal){
         String updateAnimal="UPDATE animal SET edad=?, estado = ? WHERE id_animal = ?";
-        try(PreparedStatement ps=connection.prepareStatement(updateAnimal)) {
+        String insertAdopcion = "INSERT INTO adopcion (id_animal, nombre_adoptante, telefono, fecha_adopcion, direccion) VALUES (?,?,?,?,?)";
+        try(PreparedStatement ps=connection.prepareStatement(updateAnimal);
+            PreparedStatement psAdopcion = connection.prepareStatement(insertAdopcion)
+        ) {
             connection.setAutoCommit(false);
             ps.setInt(1, animal.getEdad());
             ps.setString(2, animal.getEstado());
             ps.setInt(3, animal.getIdAnimal());
             ps.executeUpdate();
-            connection.commit();
 
+            // --- Si el estado es "Adoptado", registrar adopción ---
+            if ("Adoptado".equalsIgnoreCase(animal.getEstado())) {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("\n--- Registrar adopción del animal con ID " + animal.getIdAnimal() + " ---");
+                System.out.print("Nombre del adoptante: ");
+                String nombreAdoptante = sc.nextLine();
+                System.out.print("Teléfono del adoptante: ");
+                String telefono = sc.nextLine();
+                System.out.print("Dirección del adoptante: ");
+                String direccion = sc.nextLine();
+
+                psAdopcion.setInt(1, animal.getIdAnimal());
+                psAdopcion.setString(2, nombreAdoptante);
+                psAdopcion.setString(3, telefono);
+                psAdopcion.setTimestamp(4, Timestamp.valueOf(animal.getFechaIngreso().atStartOfDay()));
+                psAdopcion.setString(5, direccion);
+                psAdopcion.executeUpdate();
+
+                System.out.println("Animal actualizado y adopción registrada correctamente.");
+            } else {
+                System.out.println("Datos del animal actualizados correctamente.");
+            }
+
+            connection.commit();
 
         } catch (SQLException e) {
             System.err.println("No se ha podido actualizar el animal");
@@ -91,27 +143,73 @@ public class ProtectoraLoginHandleDB {
             }
         }
     }
+
     /**
-     * Elimina de la tabla el animmal que coincide con la id
+     * Método para mostar la lista de animales en estado de adopción
      */
-    public void deleteAnimal(Animal animal){
+    public List<Integer> mostrarAnimalesEnRefugio() {
+        String query = "SELECT id_animal, nombre FROM animal WHERE estado = 'En refugio'";
+        List<Integer> listaIds = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+             System.out.println("\n--- Animales en refugio (eliminables) ---");
+             System.out.printf("%-5s %-15s%n", "ID", "Nombre");
+             System.out.println("---------------------------");
+             while (rs.next()) {
+                int id = rs.getInt("id_animal");
+                String nombre = rs.getString("nombre");
+                System.out.printf("%-5d %-15s%n", id, nombre);
+                listaIds.add(id);
+             }
+        } catch (SQLException e) {
+            System.err.println("Error al listar animales en refugio");
+            e.printStackTrace();
+        }
+        return listaIds;
+    }
+
+
+    /**
+     * Elimina un animal de la base de datos solo si su estado es "En refugio".
+     * Si el animal está adoptado, no se permite el borrado por integridad referencial.
+     */
+    public void deleteAnimal(int idAnimal){
+        String checkEstado = "SELECT estado FROM animal WHERE id_animal= ?";
         String deleteAnimal="DELETE FROM animal WHERE id_animal=?";
-        try(PreparedStatement ps=connection.prepareStatement(deleteAnimal)) {
+        try(PreparedStatement psCheck = connection.prepareStatement(checkEstado);
+            PreparedStatement psDelete=connection.prepareStatement(deleteAnimal)) {
+
+            //Se comprueba si existe el animal y su estado
+            psCheck.setInt(1, idAnimal);
+            ResultSet rsCheck=psCheck.executeQuery();
+            while(!rsCheck.next()){
+                System.out.println("No existe un animal con ese ID.");
+                return;
+            }
+            String estado = rsCheck.getString("estado");
+            if (!estado.equalsIgnoreCase("En refugio")) {
+                System.out.println("No se puede eliminar: el animal no está en el refugio");
+                return;
+            }
+            // --- Eliminar animal seleccionado ---
             connection.setAutoCommit(false);
-            ps.setInt(1,animal.getIdAnimal());
-            ps.executeUpdate();
+            psDelete.setInt(1, idAnimal);
+            psDelete.executeUpdate();
             connection.commit();
+
+            System.out.println("Animal eliminado correctamente del refugio.");
+
+
         } catch (SQLException e) {
             System.err.println("No se ha podido eliminar al animal");
             e.printStackTrace();
-
             try{
                 connection.rollback();
             } catch (SQLException ex) {
                 System.err.println("Error al hacer rollback: "+ex.getMessage());
             }
 
-        } finally {
+        }finally {
             try{
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {

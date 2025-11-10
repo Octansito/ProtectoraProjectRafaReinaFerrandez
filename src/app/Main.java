@@ -47,7 +47,7 @@ import java.util.Scanner;
                             String nombre=sc.nextLine();
                             System.out.println("Especie (Perro/Gato): ");
                             String tipo= sc.nextLine();
-                            System.out.println("Edad del animal: ");
+                            System.out.println("Edad del animal (años): ");
                             int edad = Integer.parseInt(sc.nextLine());
                             System.out.println("Estado (En refugio / Adoptado)");
                             String estado= sc.nextLine();
@@ -60,12 +60,30 @@ import java.util.Scanner;
                         }
 
                         case 3 -> {
-                                System.out.print("Introduce el ID del animal a eliminar: ");
-                                int id = Integer.parseInt(sc.nextLine());
-                                Animal animalEliminar = new Animal(id, null, null, 0, null, null);
-                                protectoraHandler.deleteAnimal(animalEliminar);
-                                System.out.println("Animal eliminado correctamente.");
+                            // Mostrar lista antes de eliminar
+                            List<Integer> idsDisponibles = protectoraHandler.mostrarAnimalesEnRefugio();
 
+                            if (idsDisponibles.isEmpty()) {
+                                System.out.println("No hay animales en refugio para eliminar.");
+                                break;
+                            }
+
+                            //Introducir cuál eliminar
+                            System.out.println("Introduce el ID del animal que deseas eliminar:");
+                            int idEliminar = Integer.parseInt(sc.nextLine());
+                            if (!idsDisponibles.contains(idEliminar)) {
+                                System.out.println("ID no válido. Solo puedes eliminar animales en refugio.");
+                                break;
+                            }else{
+                                protectoraHandler.deleteAnimal(idEliminar);
+                            }
+
+                            // Mostramos de nuevo la lista tras eliminar
+                            List<Integer> idsTotales= protectoraHandler.mostrarAnimalesEnRefugio();
+
+                            if (idsTotales.isEmpty()) {
+                                System.out.println("No quedan animales en la protectora.");
+                            }
                         }
 
                         case 4 -> {
