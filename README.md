@@ -24,6 +24,8 @@ La útlima tabla (Voluntario_Grupo) se genera a partir de la relación N:M entre
 <img width="811" height="170" alt="image" src="https://github.com/user-attachments/assets/9ac07f4f-479f-43e8-b137-6cd41730bf4f" />
 
 
+
+
 <img width="926" height="686" alt="image" src="https://github.com/user-attachments/assets/1c9095b2-3724-4b3c-aacc-090446ecbbcf" />
 
 
@@ -243,3 +245,10 @@ COLLATE = utf8mb4_0900_ai_ci;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+10- Creación menú opciones Main y modificación del método update (10/11/2025):
+ a. Parte del menú de opciones
+ <img width="1860" height="1080" alt="image" src="https://github.com/user-attachments/assets/f8e3fb98-9fa7-4fd6-941c-9a0a8dc47b42" />
+ b. Modificación método update
+ <img width="1245" height="969" alt="image" src="https://github.com/user-attachments/assets/f4491bb4-9568-4114-840f-2a980738dbb9" />
