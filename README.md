@@ -247,7 +247,9 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
-10- Creación menú opciones Main, modificación del método update y pruebas (10/11/2025):
+10- Creación menú opciones Main, modificación del método insert, update, delete y pruebas (10/11/2025).
+Ahora si el animal insertado tiene el estado "Adoptado" o en update se actualiza a "Adoptado" se insertan directamente en la tabla Adopción). Por otro lado, el método delete solamente borra 
+aquellos animales que solo están en estado de "En refugio".
  a. Parte del menú de opciones
  <img width="1860" height="1080" alt="image" src="https://github.com/user-attachments/assets/f8e3fb98-9fa7-4fd6-941c-9a0a8dc47b42" />
  b. Modificación método update
@@ -255,4 +257,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
  c. Pruebas
  <img width="655" height="694" alt="image" src="https://github.com/user-attachments/assets/9b4bfe7f-7160-4b9f-8e0b-906664098a7c" />
  <img width="715" height="208" alt="image" src="https://github.com/user-attachments/assets/e99d7d22-fbd4-460b-a578-2bfb5d58056e" />
+
+
+11- Pruebas finales (12/!1/2025):
 
