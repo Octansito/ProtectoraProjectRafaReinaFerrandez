@@ -281,12 +281,19 @@ aquellos animales que solo están en estado de "En refugio".
  <img width="1182" height="396" alt="image" src="https://github.com/user-attachments/assets/7be9afcc-8a6e-4158-b0e2-2397d94f545f" />
 
 - Opción 4 (actualizamos edad y estado del animal)
-    <img width="1143" height="436" alt="image" src="https://github.com/user-attachments/assets/fa4a8bff-6d0b-4097-a1d5-fbc0c8edb0c7" />
+    <img width="1004" height="438" alt="image" src="https://github.com/user-attachments/assets/41e53619-14f4-406e-a6b5-06d988735b71" />
+
     * Actualizamos edad y estado (lo cambiaré a actualizar edad o estado o ambas)
-    *Cambiaremos 1 de en refugio a Adoptado con la edad y al reves
+    *Cambiaremos 1 de en refugio a Adoptado con la edad y al reves (Tron)
+    <img width="1431" height="414" alt="image" src="https://github.com/user-attachments/assets/a44ce464-dfc7-4fbe-b588-a4aa4f159df3" />
+    <img width="1007" height="283" alt="image" src="https://github.com/user-attachments/assets/0b9f4977-c6e2-44aa-a53d-9464d31729a2" />
+    <img width="1245" height="651" alt="image" src="https://github.com/user-attachments/assets/5846ec70-b46d-4d63-b039-659667d3275e" />
+
+    <img width="1128" height="485" alt="image" src="https://github.com/user-attachments/assets/1876cb7f-9b3d-4574-9de1-1a0a71e47f48" />
+    <img width="1195" height="617" alt="image" src="https://github.com/user-attachments/assets/97e9b65e-d2f5-4f40-a3f4-0f8e5836875b" />
+    <img width="1152" height="329" alt="image" src="https://github.com/user-attachments/assets/bfd1e846-0a87-4a21-84eb-45c078eba88e" />
 
     
-     
 - Opción 5 (obtener media de edad de los animales adoptados)
    <img width="857" height="380" alt="image" src="https://github.com/user-attachments/assets/5050f11c-c641-417b-8c10-d45e4139d42f" />
    <img width="1277" height="253" alt="image" src="https://github.com/user-attachments/assets/9c0c0943-b739-4f3a-a32e-f3dd5f4b84fb" />
