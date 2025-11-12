@@ -263,5 +263,49 @@ aquellos animales que solo están en estado de "En refugio".
 
 
 
-11- Pruebas finales (12/!1/2025):
+11- Implementación del método mostrarTodosAnimales() Pruebas finales (12/!1/2025):
+
+- Opción 1 (conexión)
+  <img width="997" height="520" alt="image" src="https://github.com/user-attachments/assets/16691069-4f5f-4137-a646-908758621375" />
+
+- Opción 2 (insertado de dos animales, en refugio y adoptado)
+  <img width="1293" height="578" alt="image" src="https://github.com/user-attachments/assets/dc5a0901-2a2a-4fa8-b154-71e720fc5cb6" />
+  <img width="1401" height="860" alt="image" src="https://github.com/user-attachments/assets/f70d3a57-44c6-4657-a25b-ff9490e89913" />
+  <img width="1277" height="530" alt="image" src="https://github.com/user-attachments/assets/1d77a42b-3f52-45f0-b9a8-b75e1327f49f" />
+  <img width="734" height="347" alt="image" src="https://github.com/user-attachments/assets/f698e212-b35c-41f2-998c-bd3d28c8a5d4" />
+  <img width="1086" height="198" alt="image" src="https://github.com/user-attachments/assets/624adbc6-e835-409e-a552-83d8ce3e11d2" />
+
+- Opción 3 (eliminar animal en estado "En refugio". Se muestra lista con los que hay, pregunta cuál quieres eliminar y al final con los que quedan tras eliminar)
+ <img width="1027" height="313" alt="image" src="https://github.com/user-attachments/assets/65a6d267-187f-4b7b-9beb-e8b5f331df41" />
+ <img width="821" height="524" alt="image" src="https://github.com/user-attachments/assets/d1044809-23aa-4160-b37b-0aeef528a991" />
+ <img width="1182" height="396" alt="image" src="https://github.com/user-attachments/assets/7be9afcc-8a6e-4158-b0e2-2397d94f545f" />
+
+- Opción 4 (actualizamos edad y estado del animal)
+    <img width="1277" height="459" alt="image" src="https://github.com/user-attachments/assets/8a27c970-20c5-43a3-a3ab-90cf88508ec1" />
+
+    * Actualizamos edad y estado (lo cambiaré a actualizar edad o estado o ambas)
+    * <img width="1247" height="254" alt="image" src="https://github.com/user-attachments/assets/e10a3eb1-c58d-4886-a126-3ec0fd3329d4" />
+     <img width="1617" height="418" alt="image" src="https://github.com/user-attachments/assets/01865484-0c26-4b4c-9a91-b9e8b6e269f7" />
+     
+- Opción 5 (obtener media de edad de los animales adoptados)
+   <img width="857" height="380" alt="image" src="https://github.com/user-attachments/assets/5050f11c-c641-417b-8c10-d45e4139d42f" />
+   <img width="1277" height="253" alt="image" src="https://github.com/user-attachments/assets/9c0c0943-b739-4f3a-a32e-f3dd5f4b84fb" />
+
+- Opción 6 (consulta todos los animales adoptados en función de su especie)
+  <img width="1391" height="288" alt="image" src="https://github.com/user-attachments/assets/dadc6746-b126-4a08-99b3-b95868109360" />
+  <img width="1319" height="354" alt="image" src="https://github.com/user-attachments/assets/a9973d78-d8e0-4385-af57-691456b04ade" />
+
+  <img width="1504" height="289" alt="image" src="https://github.com/user-attachments/assets/7b57889b-eee4-4f54-aaa6-18ed75f7b74c" />
+  <img width="1265" height="226" alt="image" src="https://github.com/user-attachments/assets/512e6ccf-6793-4ae7-8ac6-8e46f08f47d8" />
+
+ - Opción 7 (cierre del programa)
+   <img width="1113" height="327" alt="image" src="https://github.com/user-attachments/assets/de5877f2-2a5d-42d4-88b6-137a621a3bab" />
+ 
+
+
+
+
+
+
+
 
