@@ -247,16 +247,20 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
-10- Creación menú opciones Main, modificación del método insert, update, delete y pruebas (10/11/2025).
+10- Creación menú opciones Main, modificación del método insert, update, delete, implementación del método mostarListaAnimalesEnAdopción(10/11/2025).
 Ahora si el animal insertado tiene el estado "Adoptado" o en update se actualiza a "Adoptado" se insertan directamente en la tabla Adopción). Por otro lado, el método delete solamente borra 
 aquellos animales que solo están en estado de "En refugio".
  a. Parte del menú de opciones
  <img width="1860" height="1080" alt="image" src="https://github.com/user-attachments/assets/f8e3fb98-9fa7-4fd6-941c-9a0a8dc47b42" />
- b. Modificación método update
- <img width="1245" height="969" alt="image" src="https://github.com/user-attachments/assets/f4491bb4-9568-4114-840f-2a980738dbb9" />
- c. Pruebas
- <img width="655" height="694" alt="image" src="https://github.com/user-attachments/assets/9b4bfe7f-7160-4b9f-8e0b-906664098a7c" />
- <img width="715" height="208" alt="image" src="https://github.com/user-attachments/assets/e99d7d22-fbd4-460b-a578-2bfb5d58056e" />
+ b. Modificación método insert
+<img width="1669" height="467" alt="image" src="https://github.com/user-attachments/assets/f3068637-60f4-472f-86ea-f689bc0683ca" />
+ c. Modificación método update
+ <img width="1604" height="750" alt="image" src="https://github.com/user-attachments/assets/149b1449-c67b-44c0-9fef-f680ce0323d8" />
+ d. Modificacioón método delete
+<img width="1289" height="805" alt="image" src="https://github.com/user-attachments/assets/2422911d-06cd-434d-8c87-78c475ce76e5" />
+ e. Implementación mostarListaEnAdopción
+<img width="1444" height="741" alt="image" src="https://github.com/user-attachments/assets/515bcfe7-e906-414c-8a85-73ed27ef772f" />
+
 
 
 11- Pruebas finales (12/!1/2025):
