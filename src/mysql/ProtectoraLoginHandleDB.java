@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ * Clase que contiene los métodos de consulta y modificación de la base de datos de la protectora
+ */
 public class ProtectoraLoginHandleDB {
     final static Connection connection= DBConnectionProtectora.getConnection();
 
@@ -24,9 +26,11 @@ public class ProtectoraLoginHandleDB {
 
         String insertAnimal ="INSERT INTO animal (nombre, tipo, edad, estado, fecha_ingreso) VALUES (?,?,?,?,?)";
         String insertAdopcion="INSERT INTO adopcion(id_animal, nombre_adoptante, telefono, fecha_adopcion, direccion) VALUES (?,?,?,?,?)";
+
         try(PreparedStatement ps=connection.prepareStatement(insertAnimal, PreparedStatement.RETURN_GENERATED_KEYS);
             PreparedStatement psAdopcion=connection.prepareStatement(insertAdopcion)) {
             connection.setAutoCommit(false);
+
             ps.setString(1, animal.getNombreAnimal());
             ps.setString(2, animal.getTipo());
             ps.setInt(3, animal.getEdad());
@@ -41,7 +45,7 @@ public class ProtectoraLoginHandleDB {
                 idAnimal=rsAnimal.getInt(1);
             }
 
-            // --- Si el animal está adoptado, registrar la adopción ---
+            // Si el animal está adoptado, registrar la adopción
             if ("Adoptado".equalsIgnoreCase(animal.getEstado())) {
                 Scanner sc = new Scanner(System.in);
                 System.out.println("\n--- Registrar adopción del animal " + animal.getNombreAnimal() + " ---");
@@ -51,6 +55,8 @@ public class ProtectoraLoginHandleDB {
                 String telefono = sc.nextLine();
                 System.out.print("Dirección del adoptante: ");
                 String direccion = sc.nextLine();
+
+
 
                 psAdopcion.setInt(1, idAnimal);
                 psAdopcion.setString(2, nombreAdoptante);
@@ -83,24 +89,80 @@ public class ProtectoraLoginHandleDB {
         }
 
     }
+    /**
+     * Muestra todos los animales registrados en la base de datos
+     * y devuelve una lista con los objetos Animal
+     * @return lista con todos los animales registrados
+     */
+    public List<Animal> mostrarTodosAnimales() {
+        String query = "SELECT id_animal, nombre, tipo, edad, estado, fecha_ingreso FROM animal ORDER BY id_animal ASC";
+        List<Animal> listaAnimales = new ArrayList<>();
+
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            System.out.println("--- Lista completa de animales ---");
+            System.out.printf("%-5s %-15s %-10s %-5s %-15s %-12s%n",
+                    "ID", "Nombre", "Tipo", "Edad", "Estado", "Fecha ingreso");
+            System.out.println("----------------------------------------------------------------------------------------");
+
+            while (rs.next()) {
+                int id = rs.getInt("id_animal");
+                String nombre = rs.getString("nombre");
+                String tipo = rs.getString("tipo");
+                int edad = rs.getInt("edad");
+                String estado = rs.getString("estado");
+                Date fecha = rs.getDate("fecha_ingreso");
+
+                System.out.printf("%-5d %-15s %-10s %-5d %-15s %-12s%n", id, nombre, tipo, edad, estado, fecha);
+                listaAnimales.add(new Animal(id, nombre, tipo, edad, estado, fecha.toLocalDate()));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al listar los animales del refugio");
+            e.printStackTrace();
+        }
+
+        return listaAnimales;
+    }
 
     /**
-     * Actualiza el estado o la edad de un animal según la id de dicho animal
+     * Actualiza el estado y la edad de un animal según la id de dicho animal
      * @param animal
      */
     public void updateAnimalDatos (Animal animal){
+        String selectEdad = "SELECT edad FROM animal WHERE id_animal = ?";
         String updateAnimal="UPDATE animal SET edad=?, estado = ? WHERE id_animal = ?";
         String insertAdopcion = "INSERT INTO adopcion (id_animal, nombre_adoptante, telefono, fecha_adopcion, direccion) VALUES (?,?,?,?,?)";
-        try(PreparedStatement ps=connection.prepareStatement(updateAnimal);
-            PreparedStatement psAdopcion = connection.prepareStatement(insertAdopcion)
+        try(PreparedStatement psUpdate=connection.prepareStatement(updateAnimal);
+            PreparedStatement psAdopcion = connection.prepareStatement(insertAdopcion);
+            PreparedStatement psEdad=connection.prepareStatement(selectEdad)
         ) {
             connection.setAutoCommit(false);
-            ps.setInt(1, animal.getEdad());
-            ps.setString(2, animal.getEstado());
-            ps.setInt(3, animal.getIdAnimal());
-            ps.executeUpdate();
 
-            // --- Si el estado es "Adoptado", registrar adopción ---
+            //Obtener la edad actual desde la base de datos
+            psEdad.setInt(1, animal.getIdAnimal());
+            ResultSet rsEdad = psEdad.executeQuery();
+
+            if (!rsEdad.next()) {
+                System.out.println("No existe un animal con ese ID.");
+                connection.rollback();
+                return;
+            }
+
+            int edadActual = rsEdad.getInt("edad");
+            if (animal.getEdad() < edadActual) {
+                System.out.println("La nueva edad (" + animal.getEdad() + ") no puede ser menor que la actual (" + edadActual + ").");
+                return;
+            }
+
+
+            psUpdate.setInt(1, animal.getEdad());
+            psUpdate.setString(2, animal.getEstado());
+            psUpdate.setInt(3, animal.getIdAnimal());
+            psUpdate.executeUpdate();
+
+            // Si el estado es "Adoptado", registrar adopción
             if ("Adoptado".equalsIgnoreCase(animal.getEstado())) {
                 Scanner sc = new Scanner(System.in);
                 System.out.println("\n--- Registrar adopción del animal con ID " + animal.getIdAnimal() + " ---");
@@ -111,6 +173,11 @@ public class ProtectoraLoginHandleDB {
                 System.out.print("Dirección del adoptante: ");
                 String direccion = sc.nextLine();
 
+                // Verificar que la nueva edad no sea menor
+                if (animal.getEdad() < edadActual) {
+                    System.out.println("La nueva edad (" + animal.getEdad() + ") no puede ser menor que la actual (" + edadActual + ").");
+                    return;
+                }
                 psAdopcion.setInt(1, animal.getIdAnimal());
                 psAdopcion.setString(2, nombreAdoptante);
                 psAdopcion.setString(3, telefono);
@@ -128,7 +195,6 @@ public class ProtectoraLoginHandleDB {
         } catch (SQLException e) {
             System.err.println("No se ha podido actualizar el animal");
             e.printStackTrace();
-
             try{
                 connection.rollback();
             } catch (SQLException ex) {
@@ -171,13 +237,14 @@ public class ProtectoraLoginHandleDB {
 
     /**
      * Elimina un animal de la base de datos solo si su estado es "En refugio".
-     * Si el animal está adoptado, no se permite el borrado por integridad referencial.
+     * Si el animal está adoptado, no se permite el borrado por integridad de datos
      */
     public void deleteAnimal(int idAnimal){
         String checkEstado = "SELECT estado FROM animal WHERE id_animal= ?";
         String deleteAnimal="DELETE FROM animal WHERE id_animal=?";
         try(PreparedStatement psCheck = connection.prepareStatement(checkEstado);
             PreparedStatement psDelete=connection.prepareStatement(deleteAnimal)) {
+            connection.setAutoCommit(false);
 
             //Se comprueba si existe el animal y su estado
             psCheck.setInt(1, idAnimal);
@@ -191,8 +258,10 @@ public class ProtectoraLoginHandleDB {
                 System.out.println("No se puede eliminar: el animal no está en el refugio");
                 return;
             }
-            // --- Eliminar animal seleccionado ---
-            connection.setAutoCommit(false);
+
+
+            //Eliminar animal seleccionado
+
             psDelete.setInt(1, idAnimal);
             psDelete.executeUpdate();
             connection.commit();

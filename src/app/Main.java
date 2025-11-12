@@ -10,6 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que contiene el menú de opciones para interactuar con la base de datos de la protectora
+ */
+
         public class Main {
             public static void main(String[] args) {
                 Scanner sc = new Scanner(System.in);
@@ -32,7 +36,7 @@ import java.util.Scanner;
                     switch (opcion) {
                         case 1 -> {
                             if (DBConnectionProtectora.getConnection() != null) {
-                                System.out.println("Conexión correctamente establecida)");
+                                System.out.println("Conexión correctamente establecida");
                             } else {
                                 System.out.println("Error al establecer conexión con la red neuronal");
                             }
@@ -41,22 +45,36 @@ import java.util.Scanner;
                         case 2 -> {
                             System.out.println(" Introduce los datos del nuevo animal que desea introducir");
 
-                            System.out.println("Identificador del animal");
-                            int id=Integer.parseInt(sc.nextLine());
-                            System.out.println("Nombre del animal: ");
-                            String nombre=sc.nextLine();
-                            System.out.println("Especie (Perro/Gato): ");
-                            String tipo= sc.nextLine();
-                            System.out.println("Edad del animal (años): ");
-                            int edad = Integer.parseInt(sc.nextLine());
-                            System.out.println("Estado (En refugio / Adoptado)");
-                            String estado= sc.nextLine();
-                            System.out.println("Fecha de ingreso (YYYY-MM-DD): ");
-                            LocalDate fechaIngreso = LocalDate.parse(sc.nextLine());
+                            String continuar="";
+
+                            do{
+                                System.out.println("Identificador del animal");
+                                int id=Integer.parseInt(sc.nextLine());
+                                System.out.println("Nombre del animal: ");
+                                String nombre=sc.nextLine();
+                                System.out.println("Especie (Perro/Gato): ");
+                                String tipo= sc.nextLine();
+                                System.out.println("Edad del animal (años): ");
+                                int edad = Integer.parseInt(sc.nextLine());
+                                System.out.println("Estado (En refugio / Adoptado)");
+                                String estado= sc.nextLine();
+                                System.out.println("Fecha de ingreso (YYYY-MM-DD): ");
+                                LocalDate fechaIngreso = LocalDate.parse(sc.nextLine());
 
 
-                            protectoraHandler.insertAnimal(new Animal(id, nombre, tipo, edad, estado, fechaIngreso));
-                            System.out.println("Animal insertado correctamente");
+                                protectoraHandler.insertAnimal(new Animal(id, nombre, tipo, edad, estado, fechaIngreso));
+                                System.out.println("Animal insertado correctamente");
+
+
+                                // Preguntar si quiere introducir otro
+                                System.out.println("¿Desea introducir otro animal? (s/n):");
+                                continuar = sc.nextLine().trim().toLowerCase();
+                            }while  (continuar.equals("s"));
+
+
+                            System.out.println("Volviendo al menú principal");
+
+
                         }
 
                         case 3 -> {
@@ -65,6 +83,7 @@ import java.util.Scanner;
 
                             if (idsDisponibles.isEmpty()) {
                                 System.out.println("No hay animales en refugio para eliminar.");
+                                System.out.println("Volviendo al menú...");
                                 break;
                             }
 
@@ -87,18 +106,36 @@ import java.util.Scanner;
                         }
 
                         case 4 -> {
+                            System.out.println("Mostrando lista de animales registrados en la base de datos de la protectora....");
+                            List<Animal> totalAnimales = protectoraHandler.mostrarTodosAnimales();
+
+                            if (totalAnimales.isEmpty()) {
+                                System.out.println("No hay animales registrados.");
+                                System.out.println("Volviendo al menú");
+                                break;
+                            }
+
                             System.out.println("Introduce los valores para actualizar los datos del animal");
+                            String continuar="";
+                            do{
+                                System.out.print("ID del animal: ");
+                                int id = Integer.parseInt(sc.nextLine());
 
-                            System.out.print("ID del animal: ");
-                            int id = Integer.parseInt(sc.nextLine());
+                                System.out.print("Nueva edad: ");
+                                int nuevaEdad = Integer.parseInt(sc.nextLine());
 
-                            System.out.print("Nueva edad: ");
-                            int nuevaEdad = Integer.parseInt(sc.nextLine());
+                                LocalDate fechaActual = LocalDate.now();
+                                System.out.print("Nuevo estado (Adoptado / En refugio): ");
+                                String nuevoEstado = sc.nextLine();
+                                protectoraHandler.updateAnimalDatos( new Animal(id, null, null, nuevaEdad, nuevoEstado, fechaActual));
 
-                            System.out.print("Nuevo estado (Adoptado / En refugio): ");
-                            String nuevoEstado = sc.nextLine();
-                            protectoraHandler.updateAnimalDatos( new Animal(id, null, null, nuevaEdad, nuevoEstado, null));
-                            System.out.println("Datos correctamente actualizados");
+                                // Preguntar si quiere actualizar otro
+                                System.out.println("¿Desea introducir otro animal? (s/n):");
+                                continuar = sc.nextLine().trim().toLowerCase();
+                            }while  (continuar.equals("s"));
+                            System.out.println("Volviendo al menú principal");
+
+
                         }
 
                         case 5 -> {
