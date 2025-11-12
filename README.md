@@ -281,11 +281,11 @@ aquellos animales que solo están en estado de "En refugio".
  <img width="1182" height="396" alt="image" src="https://github.com/user-attachments/assets/7be9afcc-8a6e-4158-b0e2-2397d94f545f" />
 
 - Opción 4 (actualizamos edad y estado del animal)
-    <img width="1277" height="459" alt="image" src="https://github.com/user-attachments/assets/8a27c970-20c5-43a3-a3ab-90cf88508ec1" />
-
+    <img width="1143" height="436" alt="image" src="https://github.com/user-attachments/assets/fa4a8bff-6d0b-4097-a1d5-fbc0c8edb0c7" />
     * Actualizamos edad y estado (lo cambiaré a actualizar edad o estado o ambas)
-    * <img width="1247" height="254" alt="image" src="https://github.com/user-attachments/assets/e10a3eb1-c58d-4886-a126-3ec0fd3329d4" />
-     <img width="1617" height="418" alt="image" src="https://github.com/user-attachments/assets/01865484-0c26-4b4c-9a91-b9e8b6e269f7" />
+    *Cambiaremos 1 de en refugio a Adoptado con la edad y al reves
+
+    
      
 - Opción 5 (obtener media de edad de los animales adoptados)
    <img width="857" height="380" alt="image" src="https://github.com/user-attachments/assets/5050f11c-c641-417b-8c10-d45e4139d42f" />
