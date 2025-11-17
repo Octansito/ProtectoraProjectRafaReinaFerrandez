@@ -1,14 +1,14 @@
 package model;
 
-public class Voluntario_Group {
+public class VoluntarioGroup {
     //Atributos
     private String dniVoluntario;
     private int idGrupo;
 
     //Constructores
-    public Voluntario_Group() {}
+    public VoluntarioGroup() {}
 
-    public Voluntario_Group(String dniVoluntario, int idGrupo) {
+    public VoluntarioGroup(String dniVoluntario, int idGrupo) {
         this.dniVoluntario = dniVoluntario;
         this.idGrupo = idGrupo;
     }
