@@ -1,0 +1,19 @@
+* [33ma111038[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Creación MediaEdadDTO, modificación método getEdadMediaAdopcion y pruebas
+[31m|[m * [33mb3c96c3[m[33m ([m[1;31morigin/main[m[33m)[m Update README with adoption status and class changes
+[31m|[m[31m/[m  
+* [33m2556f1f[m Modificación update, cambio de método getEdadMediaAdopcion, comentario de codigo y pruebas
+* [33md9b4162[m Update README.md
+* [33mf2cb00e[m Update README.md
+* [33ma291700[m Modificación método update, creación querys nuevas y pruebas
+*   [33mec3e7f1[m Merge remote-tracking branch 'origin/main'
+[33m|[m[34m\[m  
+[33m|[m * [33m5920387[m Update README.md
+* [34m|[m [33mc23eebd[m Pequeñas Modificaciones del CRUD y pruebas
+[34m|[m[34m/[m  
+* [33ma6a3825[m Modificación de la base de datos, introducción del rollback y del Autocommit, pruebas
+*   [33m60b98f8[m Merge remote-tracking branch 'origin/main'
+[35m|[m[36m\[m  
+[35m|[m * [33mb511e28[m Update README.md
+[35m|[m * [33m0c4cb72[m Update README with new images and project info
+[35m|[m * [33md5f5236[m Update README.md
+[35m|[m * [33m0d78cc8[m Document missing Maven library issue in README

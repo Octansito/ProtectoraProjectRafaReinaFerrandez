@@ -1,23 +1,35 @@
 package mysql;
 
 import dto.AdopcionDTO;
+import dto.MediaEdadDTO;
 import model.Animal;
 import util.DBConnectionProtectora;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+/**
+ * Clase que contiene los métodos de consulta y modificación de la base de datos de la protectora
+ */
 public class ProtectoraLoginHandleDB {
     final static Connection connection= DBConnectionProtectora.getConnection();
 
     //Menú CRUD COMPLETO
+
+    /**
+     * Inserta un nuevo registro en la tabla animal con sus propiedades correspondientes
+     * @param animal
+     */
     public void insertAnimal(Animal animal) {
 
         String insertAnimal ="INSERT INTO animal (nombre, tipo, edad, estado, fecha_ingreso) VALUES (?,?,?,?,?)";
-        try(PreparedStatement ps=connection.prepareStatement(insertAnimal, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        String insertAdopcion="INSERT INTO adopcion(id_animal, nombre_adoptante, telefono, fecha_adopcion, direccion) VALUES (?,?,?,?,?)";
 
-
+        try(PreparedStatement ps=connection.prepareStatement(insertAnimal, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement psAdopcion=connection.prepareStatement(insertAdopcion)) {
+            connection.setAutoCommit(false);
 
             ps.setString(1, animal.getNombreAnimal());
             ps.setString(2, animal.getTipo());
@@ -33,27 +45,156 @@ public class ProtectoraLoginHandleDB {
                 idAnimal=rsAnimal.getInt(1);
             }
 
+            // Si el animal está adoptado, registrar la adopción
+            if ("Adoptado".equalsIgnoreCase(animal.getEstado())) {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("\n--- Registrar adopción del animal " + animal.getNombreAnimal() + " ---");
+                System.out.print("Nombre del adoptante: ");
+                String nombreAdoptante = sc.nextLine();
+                System.out.print("Teléfono del adoptante: ");
+                String telefono = sc.nextLine();
+                System.out.print("Dirección del adoptante: ");
+                String direccion = sc.nextLine();
+
+
+
+                psAdopcion.setInt(1, idAnimal);
+                psAdopcion.setString(2, nombreAdoptante);
+                psAdopcion.setString(3, telefono);
+                psAdopcion.setTimestamp(4, Timestamp.valueOf(animal.getFechaIngreso().atStartOfDay()));
+                psAdopcion.setString(5, direccion);
+                psAdopcion.executeUpdate();
+
+                System.out.println("Animal y adopción registrados correctamente.");
+            } else {
+                System.out.println("Animal registrado correctamente en refugio.");
+            }
+
+            connection.commit();
         } catch (SQLException e) {
             System.err.println("Error al insertar el animal en la base de datos");
             e.printStackTrace();
+            try{
+                connection.rollback();
+            } catch (SQLException ex) {
+                System.err.println("Error al hacer rollback: "+ex.getMessage());
+            }
 
+        }finally {
+            try{
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                System.err.println("Error al restaurar autoCommit: "+ex.getMessage());
+            }
         }
 
     }
+    /**
+     * Muestra todos los animales registrados en la base de datos
+     * y devuelve una lista con los objetos Animal
+     * @return lista con todos los animales registrados
+     */
+    public List<Animal> mostrarTodosAnimales() {
+        String query = "SELECT id_animal, nombre, tipo, edad, estado, fecha_ingreso FROM animal ORDER BY id_animal ASC";
+        List<Animal> listaAnimales = new ArrayList<>();
 
-    public void updateAnimalEstado (Animal animal){
-        String updateAnimal="UPDATE animal an JOIN adopcion ad ON ad.id_animal= an.id_animal SET an.estado = ? WHERE ad.id_animal = ?";
-        try(PreparedStatement ps=connection.prepareStatement(updateAnimal)) {
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            System.out.println("--- Lista completa de animales ---");
+            System.out.printf("%-5s %-15s %-10s %-5s %-15s %-12s%n",
+                    "ID", "Nombre", "Tipo", "Edad", "Estado", "Fecha ingreso");
+            System.out.println("----------------------------------------------------------------------------------------");
+
+            while (rs.next()) {
+                int id = rs.getInt("id_animal");
+                String nombre = rs.getString("nombre");
+                String tipo = rs.getString("tipo");
+                int edad = rs.getInt("edad");
+                String estado = rs.getString("estado");
+                Date fecha = rs.getDate("fecha_ingreso");
+
+                System.out.printf("%-5d %-15s %-10s %-5d %-15s %-12s%n", id, nombre, tipo, edad, estado, fecha);
+                listaAnimales.add(new Animal(id, nombre, tipo, edad, estado, fecha.toLocalDate()));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al listar los animales del refugio");
+            e.printStackTrace();
+        }
+
+        return listaAnimales;
+    }
+
+    /**
+     * Actualiza el estado y la edad de un animal según la id de dicho animal
+     * @param animal
+     */
+    public void updateAnimalDatos (Animal animal){
+        String selectEdad = "SELECT edad FROM animal WHERE id_animal = ?";
+        String updateAnimal="UPDATE animal SET edad=?, estado = ? WHERE id_animal = ?";
+        String insertAdopcion = "INSERT INTO adopcion (id_animal, nombre_adoptante, telefono, fecha_adopcion, direccion) VALUES (?,?,?,?,?)";
+        try(PreparedStatement psUpdate=connection.prepareStatement(updateAnimal);
+            PreparedStatement psAdopcion = connection.prepareStatement(insertAdopcion);
+            PreparedStatement psEdad=connection.prepareStatement(selectEdad)
+        ) {
             connection.setAutoCommit(false);
-            ps.setString(1, animal.getEstado());
-            ps.setInt(2, animal.getIdAnimal());
-            ps.executeUpdate();
+
+            //Obtener la edad actual desde la base de datos
+            psEdad.setInt(1, animal.getIdAnimal());
+            ResultSet rsEdad = psEdad.executeQuery();
+
+            if (!rsEdad.next()) {
+                System.out.println("No existe un animal con ese ID.");
+                connection.rollback();
+                return;
+            }
+
+            int edadActual = rsEdad.getInt("edad");
+            if (animal.getEdad() < edadActual) {
+                System.out.println("La nueva edad (" + animal.getEdad() + ") no puede ser menor que la actual (" + edadActual + ").");
+                return;
+            }
+
+
+            psUpdate.setInt(1, animal.getEdad());
+            psUpdate.setString(2, animal.getEstado());
+            psUpdate.setInt(3, animal.getIdAnimal());
+            psUpdate.executeUpdate();
+
+            // Si el estado es "Adoptado", registrar adopción
+            if ("Adoptado".equalsIgnoreCase(animal.getEstado())) {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("\n--- Registrar adopción del animal con ID " + animal.getIdAnimal() + " ---");
+                System.out.print("Nombre del adoptante: ");
+                String nombreAdoptante = sc.nextLine();
+                System.out.print("Teléfono del adoptante: ");
+                String telefono = sc.nextLine();
+                System.out.print("Dirección del adoptante: ");
+                String direccion = sc.nextLine();
+
+                // Verificar que la nueva edad no sea menor
+                if (animal.getEdad() < edadActual) {
+                    System.out.println("La nueva edad (" + animal.getEdad() + ") no puede ser menor que la actual (" + edadActual + ").");
+                    return;
+                }
+                psAdopcion.setInt(1, animal.getIdAnimal());
+                psAdopcion.setString(2, nombreAdoptante);
+                psAdopcion.setString(3, telefono);
+                psAdopcion.setTimestamp(4, Timestamp.valueOf(animal.getFechaIngreso().atStartOfDay()));
+                psAdopcion.setString(5, direccion);
+                psAdopcion.executeUpdate();
+
+                System.out.println("Animal actualizado y adopción registrada correctamente.");
+            } else {
+                System.out.println("Datos del animal actualizados correctamente.");
+            }
+
             connection.commit();
 
         } catch (SQLException e) {
             System.err.println("No se ha podido actualizar el animal");
             e.printStackTrace();
-
             try{
                 connection.rollback();
             } catch (SQLException ex) {
@@ -69,23 +210,75 @@ public class ProtectoraLoginHandleDB {
         }
     }
 
-    public void deleteAnimal(Animal animal){
+    /**
+     * Método para mostar la lista de animales en estado de adopción
+     */
+    public List<Integer> mostrarAnimalesEnRefugio() {
+        String query = "SELECT id_animal, nombre FROM animal WHERE estado = 'En refugio'";
+        List<Integer> listaIds = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+             System.out.println("\n--- Animales en refugio (eliminables) ---");
+             System.out.printf("%-5s %-15s%n", "ID", "Nombre");
+             System.out.println("---------------------------");
+             while (rs.next()) {
+                int id = rs.getInt("id_animal");
+                String nombre = rs.getString("nombre");
+                System.out.printf("%-5d %-15s%n", id, nombre);
+                listaIds.add(id);
+             }
+        } catch (SQLException e) {
+            System.err.println("Error al listar animales en refugio");
+            e.printStackTrace();
+        }
+        return listaIds;
+    }
+
+
+    /**
+     * Elimina un animal de la base de datos solo si su estado es "En refugio".
+     * Si el animal está adoptado, no se permite el borrado por integridad de datos
+     */
+    public void deleteAnimal(int idAnimal){
+        String checkEstado = "SELECT estado FROM animal WHERE id_animal= ?";
         String deleteAnimal="DELETE FROM animal WHERE id_animal=?";
-        try(PreparedStatement ps=connection.prepareStatement(deleteAnimal)) {
-            ps.setInt(1,animal.getIdAnimal());
-            ps.executeUpdate();
+        try(PreparedStatement psCheck = connection.prepareStatement(checkEstado);
+            PreparedStatement psDelete=connection.prepareStatement(deleteAnimal)) {
+            connection.setAutoCommit(false);
+
+            //Se comprueba si existe el animal y su estado
+            psCheck.setInt(1, idAnimal);
+            ResultSet rsCheck=psCheck.executeQuery();
+            while(!rsCheck.next()){
+                System.out.println("No existe un animal con ese ID.");
+                return;
+            }
+            String estado = rsCheck.getString("estado");
+            if (!estado.equalsIgnoreCase("En refugio")) {
+                System.out.println("No se puede eliminar: el animal no está en el refugio");
+                return;
+            }
+
+
+            //Eliminar animal seleccionado
+
+            psDelete.setInt(1, idAnimal);
+            psDelete.executeUpdate();
+            connection.commit();
+
+            System.out.println("Animal eliminado correctamente del refugio.");
+
 
         } catch (SQLException e) {
             System.err.println("No se ha podido eliminar al animal");
             e.printStackTrace();
-
             try{
                 connection.rollback();
             } catch (SQLException ex) {
                 System.err.println("Error al hacer rollback: "+ex.getMessage());
             }
 
-        } finally {
+        }finally {
             try{
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {
@@ -95,23 +288,31 @@ public class ProtectoraLoginHandleDB {
 
     }
 
-    //
-    public int getTotalByEstado(String estado){
-        String totalQuery="SELECT an.estado, COUNT(*) AS total_estado FROM adopcion ad JOIN animal an ON an.id_animal = ad.id_animal WHERE an.estado = ? GROUP BY an.estado";
+    /**
+     * Consulta que devuelve la media de edad de los tipos de animales adoptados
+
+     * @return devuelve el número de filas asociadasa a animales con ese parámetro
+     */
+    public List<MediaEdadDTO> getEdadMediaAdopcion(){
+        List<MediaEdadDTO> resultado= new ArrayList<>();
+        String totalQuery="SELECT an.tipo, AVG(an.edad) AS media_edad FROM adopcion ad JOIN animal an ON an.id_animal = ad.id_animal GROUP BY an.tipo ORDER BY media_edad DESC";
         try (PreparedStatement ps= connection.prepareStatement(totalQuery)){
-            ps.setString(1, estado);
             ResultSet rs=ps.executeQuery();
-            while (rs.next()){
-                return rs.getInt("total_estado");
+            while(rs.next()){
+                resultado.add(new MediaEdadDTO(rs.getString(1), rs.getDouble(2)));
             }
         } catch (SQLException e) {
-            System.err.println("No se ha podido obtener el total de animales por estado");
+            System.err.println("No se ha podido obtener la media de edad por tipo de animal");
             e.printStackTrace();
         }
-        return 0;
+        return resultado;
     }
 
-    //
+    /**
+     * Consulta todas las adopciones por tipo de animal
+     * @param tipo del animal "Perro" o "Gato"
+     * @return devuelve una lista con por cada adopción: el id, el nombre del animal, tipo, nombre del adoptante y fecha de adopción
+     */
     public List<AdopcionDTO> getAdopcionesByTipo(String tipo){
         List<AdopcionDTO> listaAdopciones= new ArrayList<>();
         String queryAdopciones="SELECT ad.id_adopcion, an.nombre, an.tipo, ad.nombre_adoptante, ad.fecha_adopcion FROM adopcion ad JOIN animal an ON an.id_animal = ad.id_animal WHERE an.tipo = ? ORDER BY ad.fecha_adopcion ASC";
@@ -121,6 +322,7 @@ public class ProtectoraLoginHandleDB {
             ResultSet rs= ps.executeQuery();
             while(rs.next()){
                 listaAdopciones.add(new AdopcionDTO(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4), rs.getTimestamp(5).toLocalDateTime().toLocalDate()));
+
             }
 
         } catch (SQLException e) {
